@@ -1,0 +1,29 @@
+{
+    "name": "jaqas/menu",
+    "description": "Laravel Drag and Drop menu editor",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "vako",
+            "email": "vako800@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Jaqas\\Menu\\":"src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jaqas\\Menu\\MenuServiceProvider"
+            ],
+            "aliases": {
+                "Menu": "Jaqas\\Menu\\MenuFacade"
+            }
+        }
+    }
+}
