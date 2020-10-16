@@ -28,3 +28,19 @@ Jaqas\Menu\MenuServiceProvider::class,
 ```php
 php artisan vendor:publish --provider="Jaqas\Menu\MenuServiceProvider"
 ```
+5. Run migrate
+
+```php
+php artisan migrate
+```
+
+### Menu Editor Usage Example
+Displays The Editor
+```php
+{{Menu::editor()}}
+```
+Get Menu By Array
+```php
+{{Menu::menu_array()}}
+```
+
