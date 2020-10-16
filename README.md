@@ -43,4 +43,7 @@ Get Menu By Array
 ```php
 {{Menu::menu_array()}}
 ```
+Configure in **_config/menu.php_** :
 
+- **_CUSTOM MIDDLEWARE:_** You can add you own middleware
+- **_Custom routes_** If you want to edit the route path you can edit the link
