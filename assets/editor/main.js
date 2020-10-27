@@ -18,8 +18,6 @@ function jaqas_menu(){
         item.addEventListener('mousemove', MouseOverOnItem);
         item.addEventListener('mouseout', MouseOutFromItem);
 
-        let info_for_transport = {};
-
         
         function MouseDownOnItem(event) {
 
@@ -87,13 +85,6 @@ function jaqas_menu(){
                                 }
 
                                 info['container'].appendChild(items[i]);
-
-                                if(!info_for_transport['transported']){
-                                    info_for_transport[real_i] = depth_id;
-                                    real_i++;
-                                }
-                              
-
                             }else {
                                 info['getChilds'] = false;
                             }
@@ -101,7 +92,6 @@ function jaqas_menu(){
                     } 
                     
                 }
-                info_for_transport['transported'] = true;
             }
             
             //put this item childs bottom of this item
@@ -110,14 +100,17 @@ function jaqas_menu(){
                     return false;
                 }
                 let items = item_parent.getElementsByTagName('ul')[0].children;
-                let depth_id = parseInt(item_parent.className.replace( /\D+/g, ''));
+                let parent_depth_id = parseInt(item_parent.className.replace( /\D+/g, ''));
                 let real_i = 0;
+                
                 while (items[0]) {
                     let i = 0;
                     if(items.length >= 2){
                         i = items.length - 1;
-                    }                    
-                    items[i].className = 'jaqas_menu_item_depth-'+parseInt(info_for_transport[real_i] + depth_id);
+                    }         
+                    
+                    let item_depth_id = parseInt(items[i].className.replace( /\D+/g, ''));
+                    items[i].className = 'jaqas_menu_item_depth-'+parseInt(item_depth_id + parent_depth_id);
                     parentContainer.insertBefore(items[i], item_parent.nextSibling);
 
                     real_i++;
@@ -340,6 +333,7 @@ function jaqas_menu(){
 
             //update parents | depth
             let depth_id = parseInt(items[i].className.replace(/\D+/g, ''));
+            let depth_id_old = depth_id;
 
             //if its first row
             if(i == 0){
@@ -351,11 +345,20 @@ function jaqas_menu(){
             }
             
             if(info['last_depth_id'] < depth_id && depth_id - info['last_depth_id'] != 1){
-                    let new_depth_id = info['last_depth_id'] + 1;
-                    items[i].className = 'jaqas_menu_item_depth-'+new_depth_id;
-                    depth_id = new_depth_id;
-            }                    
+                    if(info['last_original_depth_id'] == depth_id){
+                        items[i].className = 'jaqas_menu_item_depth-'+info['last_depth_id'];
+                        depth_id = info['last_depth_id'];
+                    }else {
+                        let new_depth_id = info['last_depth_id'] + 1;
+                        items[i].className = 'jaqas_menu_item_depth-'+new_depth_id;
+                        depth_id = new_depth_id;
+                    } 
+            }    
+            //console.log('old:'+info['last_original_depth_id'], 'now:'+depth_id, 'new:'+depth_id)
+                
             info['last_depth_id'] = depth_id;
+            info['last_original_depth_id'] = depth_id_old;
+
 
         }//for loop                     
 
