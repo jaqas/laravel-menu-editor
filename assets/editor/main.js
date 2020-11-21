@@ -102,16 +102,35 @@ function jaqas_menu(){
                 let items = item_parent.getElementsByTagName('ul')[0].children;
                 let parent_depth_id = parseInt(item_parent.className.replace( /\D+/g, ''));
                 let real_i = 0;
+
+                let info = [];
+
                 
                 while (items[0]) {
-                    let i = 0;
-                    if(items.length >= 2){
-                        i = items.length - 1;
-                    }         
+                    let item = items[0];
                     
-                    let item_depth_id = parseInt(items[i].className.replace( /\D+/g, ''));
-                    items[i].className = 'jaqas_menu_item_depth-'+parseInt(item_depth_id + parent_depth_id);
-                    parentContainer.insertBefore(items[i], item_parent.nextSibling);
+                    let item_depth_id = parseInt(item.className.replace( /\D+/g, ''));
+
+                    if(!info['last']){
+                        //first item
+                        info['last'] = parent_depth_id + 1;
+                        item.className = 'jaqas_menu_item_depth-'+parseInt(info['last']);
+                    }else if(info['original_last'] < item_depth_id){
+                        info['last'] = info['last'] + 1;
+                        item.className = 'jaqas_menu_item_depth-'+parseInt(info['last']);
+                    }else if(info['original_last'] == item_depth_id){
+                        info['last'] = info['last'];
+                        item.className = 'jaqas_menu_item_depth-'+parseInt(info['last']);
+                    }else if(info['original_last']  < item_depth_id && parent_depth_id < item_depth_id){
+                        info['last'] = info['last'] + 1;
+                        item.className = 'jaqas_menu_item_depth-'+parseInt(info['last']);
+                    }
+                    
+                    //UPDATE INFO
+                    info['original_last'] = item_depth_id;
+
+                    //append item
+                    parentContainer.appendChild(item);
 
                     real_i++;
                 }
